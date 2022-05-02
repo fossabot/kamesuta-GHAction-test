@@ -1,16 +1,20 @@
+name: "Hugo-build-and-deployment"
+
 permissions:
   contents: read
   pages: write
   deployments: write
   id-token: write
 
-name: "Hugo build and deployment"
-
 on:
   workflow_dispatch:
   push:
     branches:
       - develop # Set a branch to deploy
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   BRANCH_TO_DEPLOY: "develop"
@@ -20,7 +24,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Check out Hyas project
+      - name: Check out project
         uses: actions/checkout@v3
         with:
           submodules: true
@@ -29,6 +33,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+
+      - name: Enable corepack
+        run: corepack enable yarn
 
       - name: Install dependencies
         run: yarn
@@ -39,6 +46,12 @@ jobs:
       - name: Brotli compress the html, css and js files
         id: brotli
         uses: charlesworth/compress-action@3d837949305ec61c1ca83ceb55218225d0b96eb6
+        with:
+          target-directory: 'public'
+
+      - name: Brotli compress the html, css and js files
+        id: brotli
+        uses: KamePowerWorld/brotli-action@master
         with:
           target-directory: 'public'
 

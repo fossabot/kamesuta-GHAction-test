@@ -1,4 +1,4 @@
-name: Hyas CI
+name: Node-js-CI
 
 on:
   push:
@@ -16,19 +16,21 @@ jobs:
         node: [16.x]
 
     steps:
-      - name: Check out Hyas project
+      - name: Check out project
         uses: actions/checkout@v3
 
       - name: Set up Node.js ${{ matrix.node }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-          cache: 'yarn'
+
+      - name: corepack enable yarn
+        run: corepack enable yarn
 
       - name: Install dependencies
         run: yarn
 
-      - name: Run Hyas test script
+      - name: Run test script
         run: yarn test
 
       - name: Build production website
