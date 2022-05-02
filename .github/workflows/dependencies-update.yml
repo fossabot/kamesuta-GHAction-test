@@ -15,7 +15,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: "16"
       - run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -33,6 +33,7 @@ jobs:
           YARN_ENABLE_IMMUTABLE_INSTALLS: 0
       - name: Push
         shell: bash
+        continue-on-error: true
         run: |
           git add .
           git commit -m "Update dependencies" -a
