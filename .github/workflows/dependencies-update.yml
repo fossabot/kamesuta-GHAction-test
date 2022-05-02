@@ -31,10 +31,12 @@ jobs:
           yarn dedupe
         env:
           YARN_ENABLE_IMMUTABLE_INSTALLS: 0
-      - name: Create pull request
+      - name: Push
         shell: bash
         run: |
-          hub push
-          hub pull-request -b develop -m "Update dependencies"
+          git add .
+          git commit -m "Update dependencies" -a
+          git pull
+          git push origin develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
