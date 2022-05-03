@@ -26,9 +26,9 @@ jobs:
         run: |
           corepack enable yarn
 
-          yarn up '*' --recursive
+          yarn up '*'
 
-          yarn up '@*/*' --recursive
+          yarn up '@*/*'
 
           yarn dedupe
         env:
