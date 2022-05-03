@@ -39,7 +39,6 @@ jobs:
         run: |
           git add .
           git commit -m "Update dependencies" -a
-          git push -u origin "update-dependencies"
-          hub pull-request -b develop -m "Update dependencies" -h "update-dependencies"
+          git push -u origin "update-dependencies" --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
