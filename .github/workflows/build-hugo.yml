@@ -35,19 +35,13 @@ jobs:
           node-version: 16.x
 
       - name: Enable corepack
-        run: corepack enable yarn
+        run: corepack enable pnpm
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
 
       - name: Build production website
-        run: yarn run build
-        
-      - name: Brotli compress the html, css and js files
-        id: brotli
-        uses: charlesworth/compress-action@3d837949305ec61c1ca83ceb55218225d0b96eb6
-        with:
-          target-directory: 'public'
+        run: pnpm run build
 
       - name: Brotli compress the html, css and js files
         id: brotli

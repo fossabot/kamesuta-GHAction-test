@@ -19,25 +19,20 @@ jobs:
       - run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - name: yarn upgrade
+          git checkout develop
+          git checkout -b "update-dependencies"
+      - name: pnpm upgrade
         shell: bash
         run: |
-          corepack enable yarn
+          corepack enable pnpm
 
-          yarn up '*' --recursive
-
-          yarn up '@*/*' --recursive
-
-          yarn dedupe
-        env:
-          YARN_ENABLE_IMMUTABLE_INSTALLS: 0
+          pnpm up --latest
       - name: Push
         shell: bash
         continue-on-error: true
         run: |
           git add .
           git commit -m "Update dependencies" -a
-          git pull
-          git push origin develop
+          git push -u origin "update-dependencies" --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
